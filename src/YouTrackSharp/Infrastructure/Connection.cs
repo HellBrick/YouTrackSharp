@@ -49,7 +49,6 @@ namespace YouTrackSharp.Infrastructure
         readonly string _host;
         readonly int _port;
         readonly IUriConstructor _uriConstructor;
-        CookieCollection _authenticationCookie;
         string _username;
 
         public Connection(string host, int port = 80, bool useSSL = false, string path = null)
@@ -69,6 +68,12 @@ namespace YouTrackSharp.Infrastructure
         }
 
         public HttpStatusCode HttpStatusCode { get; private set; }
+		public CookieCollection AuthenticationCookie { get; set; }
+
+		public bool IsAuthenticated
+		{
+			get { return AuthenticationCookie != null; }
+		}
 
         public T Get<T>(string command)
         {
@@ -166,16 +171,15 @@ namespace YouTrackSharp.Infrastructure
             return httpRequest.Response.DynamicBody;
         }
 
-        public void Authenticate(NetworkCredential credentials)
+		public void Authenticate( NetworkCredential credentials )
         {
             Authenticate(credentials.UserName, credentials.Password);
         }
 
         public void Authenticate(string username, string password)
         {
-            IsAuthenticated = false;
             _username = String.Empty;
-            _authenticationCookie = null;
+            AuthenticationCookie = null;
 
             dynamic credentials = new ExpandoObject();
 
@@ -192,8 +196,7 @@ namespace YouTrackSharp.Infrastructure
                     {
                         throw new AuthenticationException(Language.YouTrackClient_Login_Authentication_Failed);
                     }
-                    IsAuthenticated = true;
-                    _authenticationCookie = response.Response.Cookies;
+                    AuthenticationCookie = response.Response.Cookies;
                     _username = username;
                 }
                 else
@@ -209,12 +212,9 @@ namespace YouTrackSharp.Infrastructure
 
         public void Logout()
         {
-            IsAuthenticated = false;
             _username = null;
-            _authenticationCookie = null;
+            AuthenticationCookie = null;
         }
-
-        public bool IsAuthenticated { get; private set; }
 
         public User GetCurrentAuthenticatedUser()
         {
@@ -289,9 +289,9 @@ namespace YouTrackSharp.Infrastructure
 
             httpClient.ThrowExceptionOnHttpError = true;
 
-            if (_authenticationCookie != null)
+            if (AuthenticationCookie != null)
             {
-                httpClient.Request.Cookies = new CookieCollection {_authenticationCookie};
+                httpClient.Request.Cookies = new CookieCollection {AuthenticationCookie};
             }
 
 

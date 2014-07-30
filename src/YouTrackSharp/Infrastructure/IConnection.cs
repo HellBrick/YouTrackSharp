@@ -42,6 +42,7 @@ namespace YouTrackSharp.Infrastructure
     {
         bool IsAuthenticated { get; }
         HttpStatusCode HttpStatusCode { get; }
+		CookieCollection AuthenticationCookie { get; set; }
         T Get<T>(string command);
         IEnumerable<TInternal> Get<TWrapper, TInternal>(string command) where TWrapper : class, IDataWrapper<TInternal>;
         dynamic Post(string command, object data, string accept);
