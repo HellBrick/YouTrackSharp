@@ -105,6 +105,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Admin\UserManagement.cs" />
     <Compile Include="Admin\User.cs" />
+    <Compile Include="TimeTracking\Internal\WorkItemSerializationWrapper.cs" />
+    <Compile Include="TimeTracking\WorkItem.cs" />
+    <Compile Include="TimeTracking\WorkItemAuthor.cs" />
+    <Compile Include="TimeTracking\TimeTrackingManagement.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Language.resx">
