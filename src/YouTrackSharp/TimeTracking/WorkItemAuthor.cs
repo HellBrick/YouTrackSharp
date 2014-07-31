@@ -9,5 +9,10 @@ namespace YouTrackSharp.TimeTracking
 	{
 		public string Login { get; set; }
 		public Uri Url { get; set; }
+
+		public override string ToString()
+		{
+			return Login;
+		}
 	}
 }

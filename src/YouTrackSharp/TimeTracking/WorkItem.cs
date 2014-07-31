@@ -12,5 +12,10 @@ namespace YouTrackSharp.TimeTracking
 		public TimeSpan Duration { get; set; }
 		public string Description { get; set; }
 		public WorkItemAuthor Author { get; set; }
+
+		public override string ToString()
+		{
+			return String.Format( "{0} - {1} by {2}", Description, Duration, Author );
+		}
 	}
 }
