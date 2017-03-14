@@ -11,7 +11,7 @@ namespace YouTrackSharp.TimeTracking.Internal
 	class WorkItemSerializationWrapper
 	{
 		private static readonly DateTime _zeroDateTime = new DateTime( year: 1970, month: 1, day: 1, hour: 0, minute: 0, second: 0, kind: DateTimeKind.Utc );
-		private static readonly TimeSpan _buggyTimeValue = TimeSpan.FromHours( 20 );
+		private static readonly TimeSpan _buggyTimeValue = TimeSpan.FromHours( 22 );
 
 		public string ID { get; set; }
 		public long Date { get; set; }
@@ -36,7 +36,7 @@ namespace YouTrackSharp.TimeTracking.Internal
 		private DateTime ConvertDate()
 		{
 			DateTime date = _zeroDateTime.AddMilliseconds( Date );
-			
+
 			//	Fix for the YouTrack timezone bug
 			if ( date.TimeOfDay == _buggyTimeValue )
 			{
